@@ -21,5 +21,6 @@ urlpatterns = [
     path('',include('problems.urls')),
     path('submit/',submit,name="submit"),
     path('problems/',include('problems.urls')),
+    path('Users/',include('Users.urls')),
     path('admin/', admin.site.urls),
 ]
