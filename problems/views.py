@@ -55,6 +55,19 @@ def submit(request):
             if output.strip()!=test.expected_output.strip():
                 verdict="Wrong Answer"
                 break
+    
+    elif language=="option3":
+        file_path="assets/python_code.py"
+        with open(file_path,"w") as file:
+            file.write(code)
+        for test in tc:
+            input_data=test.input
+            print(input_data)
+            output=run_python_file("python_code.py",input_data)
+            print(output)
+            if output.strip()!=test.expected_output.strip():
+                verdict="Wrong Answer"
+                break
     return render(request,'verdict.html',{'verdict':verdict})
 
 
@@ -102,4 +115,14 @@ def run_java_file(file_name,input_data):
             return run_result.stderr
     else:
         return compile_result.stderr
+
+
+def run_python_file(file_name,input_data):
+    file_path=os.path.join("assets",file_name)
     
+    run_result= subprocess.run(["python",file_path],input=input_data,capture_output=True,text=True)
+    
+    if run_result.returncode==0:
+        return run_result.stdout
+    else: 
+        return run_result.stderr
