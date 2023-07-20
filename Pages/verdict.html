@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    {{verdict}}
+    {% for verdict in subs%}
+    <div>{{verdict.user}} {{verdict.problem}} {{verdict.verdict}} {{verdict.time_of_submission}}</div>
+    {% endfor %}
 </body>
 </html>

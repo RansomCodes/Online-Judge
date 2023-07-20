@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from .models import questions,testcases
+from django.shortcuts import render,redirect,reverse
+from .models import questions,testcases,totsubmission
 import subprocess,os
+from django.contrib.auth.models import User,auth
+from datetime import datetime
 
-# Create your views here.
 def home(request):
     ques=questions.objects.all()
     return render(request,'index.html',{'ques':ques})
@@ -10,10 +11,8 @@ def home(request):
 def question_detail(request,question_id):
     try:
         ques=questions.objects.get(id=question_id)
-        # print("IDHAR HU MAI")
         return render(request,'submission.html',{'ques':ques})
     except questions.DoesNotExist:
-        # print("JALDI WAHAAN SE HATO")
         return render(request,'verdict.html')
 
 
@@ -23,8 +22,15 @@ def submit(request):
     code=request.POST["code"]
     language=request.POST["language"]
     ques_id=request.POST["ques_id"]
+    ques_name=questions.objects.get(id=ques_id).name
+    curr_time=datetime.now()
+    # Extracting testcases from the data which has the question id sam as the problem id
     tc=testcases.objects.filter(question_id=ques_id)
-    verdict="Accepted"
+    verdict="Wrong Answer"
+    
+    # option1 --> C++
+    # option2 --> Java
+    # option3 --> Python
     if language== "option1":
         # Path where the file is stored and needs to be rewritten
         file_path="assets/user_code.cpp"
@@ -32,55 +38,59 @@ def submit(request):
         # Rewriting the file
         with open(file_path,'w') as file:
             file.write(code)
+        verdict="Accepted"
         
-        # Getting hold of every testcase associated with the current question id
+        # Getting hold of every testcase
         for test in tc:
             input_data=test.input
-            # print(test.input)
+            print(input_data)
             output=run_cpp_file("user_code.cpp",input_data)
+            print(output)
+            # Comparing if the output of the user input function matched with current input
             if output.strip()!=test.expected_output.strip():
-                # print(output,"&&&&&&&&&&",test.expected_output)
-                # print(len(output))
-                # print(len(test.expected_output))
                 verdict="Wrong answer"
                 break
             
     elif language=="option2":
+        
         file_path="assets/AddTwoNumbers.java"
+        verdict="Accepted"
+        
         with open(file_path,"w") as file:
             file.write(code)
+            
         for test in tc:
             input_data=test.input
             output=run_java_file("AddTwoNumbers.java",input_data)
+            
             if output.strip()!=test.expected_output.strip():
                 verdict="Wrong Answer"
                 break
     
     elif language=="option3":
+        
         file_path="assets/python_code.py"
+        verdict="Accepted"
+        
         with open(file_path,"w") as file:
             file.write(code)
+            
         for test in tc:
             input_data=test.input
-            print(input_data)
             output=run_python_file("python_code.py",input_data)
-            print(output)
             if output.strip()!=test.expected_output.strip():
                 verdict="Wrong Answer"
                 break
-    return render(request,'verdict.html',{'verdict':verdict})
+    
+    currsubmission=totsubmission(user=request.user.first_name,verdict=verdict,time_of_submission=curr_time,problem=ques_name)
+    currsubmission.save()
+    sub=totsubmission.objects.all()
+    return render(request,'verdict.html',{'subs':sub})
 
 
 def run_cpp_file(file_name,input_data):
     # connect the file name to its correct path
     file_path=os.path.join("assets",file_name)
-    
-    # if not os.path.exists(file_path):
-    #     print("File not found")
-    # else:
-    #     with open(file_path,"r") as file:
-    #         content=file.read()
-    #         print(content)
         
     # Compiling the file with user input
     output_file_name="compiled_output"
@@ -97,13 +107,6 @@ def run_cpp_file(file_name,input_data):
 
 def run_java_file(file_name,input_data):
     file_path=os.path.join("assets",file_name)
-    
-    # if not os.path.exists(file_path):
-    #     print("File not found")
-    # else:
-    #     with open(file_path,"r") as file:
-    #         content=file.read()
-    #         print(content)
     
     compile_result=subprocess.run(["javac",file_path],capture_output=True,text=True)
     if compile_result.returncode==0:

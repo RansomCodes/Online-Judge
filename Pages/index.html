@@ -1,25 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online Judge</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
     <header>
-        <div class="logoname">Online Judge</div>
-        <nav >
-            <ul id="head_ul">
-                <li class="head_li" id="head_l1">{% if user.is_authenticated %} {{ user.first_name|capfirst }} {% else %} <a href="Users/login">Sign In</a>{% endif %}</li>
-                <li class="head_li">{% if user.is_authenticated %}<a href="Users/logout">Logout</a> {% else %}<a href="Users/register">Register</a>{% endif %}</li>
-            </ul>
-        </nav>
+      <div class="logoname">Codemasters</div>
+      <nav>
+        <ul id="head_ul">
+          <li class="head_li" id="head_l1">
+            {% if user.is_authenticated %} {{ user.first_name|capfirst }} {% else %} <a href="Users/login">Sign In</a>{% endif %}
+          </li>
+          <li class="head_li">
+            {% if user.is_authenticated %}<a href="Users/logout">Logout</a> {% else %}<a href="Users/register">Register</a>{% endif %}
+          </li>
+        </ul>
+      </nav>
     </header>
     {% for question in ques%}
-    <a href="{% url 'question_detail' question.id %}">{{question.name}}</a> <br>
+    <a href="{% url 'question_detail' question.id %}">{{question.name}}</a>
+    <br />
     {% endfor %}
-</body>
+  </body>
 </html>
 <!-- checking changes -->

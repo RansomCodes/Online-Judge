@@ -1,22 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    {{ques.statement}} <br>
-        <form action="{% url 'submit' %}" method="post">
-        {% csrf_token %}
-        <textarea name="code" cols="80" rows="30"></textarea> <br>
-        <select name="language">
-            <option value="option1">C++ 17</option>
-            <option value="option2">Java</option>
-            <option value="option3">Python 3.2.2</option>
-        </select>
-        <input type="hidden" name="ques_id" value="{{ques.id}}">
-        <button type="submit">Submit</button>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <h1>{{ques.name}}</h1>
+    {{ques.statement}} <br />
+    <form action="{% url 'submit' %}" method="post">
+      {% csrf_token %}
+      <textarea name="code" cols="80" rows="30"></textarea> <br />
+      <select name="language">
+        <option value="option1">C++ 17</option>
+        <option value="option2">Java</option>
+        <option value="option3">Python 3.2.2</option>
+      </select>
+      <input type="hidden" name="ques_id" value="{{ques.id}}" />
+      <button type="submit">Submit</button>
     </form>
-</body>
+    {% else %}
+    <div>Please <a href="{% url 'login' %}">Sign In</a> to view the code</div>
+    {% endif %}
+  </body>
 </html>
