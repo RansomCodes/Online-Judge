@@ -18,3 +18,5 @@ class totsubmission(models.Model):
     problem=models.CharField(max_length=500)
     verdict=models.CharField(max_length=100)
     time_of_submission=models.TimeField()
+    language=models.CharField(max_length=20)
+    date_of_submission=models.DateField()

@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #EEEEEE;
+}
+
+#box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A076F9;
+    color: white;
+    font-size: 2rem;
+    padding: 2%;
+}
+
+#listlogo {
+    height: 1.7rem;
+    margin-left: 10px;
+}
+
+#data {
+    margin: 20px;
+}
+
+#verdict {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#verdict th, #verdict td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+#verdict th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+    #verdict {
+        font-size: 12px; /* Reduce font size on smaller screens */
+    }
+    #box
+    {
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+    }
+}
