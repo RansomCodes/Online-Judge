@@ -24,6 +24,7 @@ def submit(request):
     ques_id=request.POST["ques_id"]
     ques_name=questions.objects.get(id=ques_id).name
     curr_time=datetime.now()
+    curr_lang=""
     # Extracting testcases from the data which has the question id sam as the problem id
     tc=testcases.objects.filter(question_id=ques_id)
     verdict="Wrong Answer"
@@ -34,7 +35,7 @@ def submit(request):
     if language== "option1":
         # Path where the file is stored and needs to be rewritten
         file_path="assets/user_code.cpp"
-        
+        curr_lang="C++"
         # Rewriting the file
         with open(file_path,'w') as file:
             file.write(code)
@@ -55,6 +56,7 @@ def submit(request):
         
         file_path="assets/AddTwoNumbers.java"
         verdict="Accepted"
+        curr_lang="Java"
         
         with open(file_path,"w") as file:
             file.write(code)
@@ -71,6 +73,7 @@ def submit(request):
         
         file_path="assets/python_code.py"
         verdict="Accepted"
+        curr_lang="Python"
         
         with open(file_path,"w") as file:
             file.write(code)
@@ -82,7 +85,7 @@ def submit(request):
                 verdict="Wrong Answer"
                 break
     
-    currsubmission=totsubmission(user=request.user.first_name,verdict=verdict,time_of_submission=curr_time,problem=ques_name)
+    currsubmission=totsubmission(user=request.user.first_name,verdict=verdict,time_of_submission=curr_time,problem=ques_name,language=curr_lang,date_of_submission=curr_time)
     currsubmission.save()
     sub=totsubmission.objects.all()
     return render(request,'verdict.html',{'subs':sub})

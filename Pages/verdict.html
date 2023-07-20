@@ -1,13 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'verdict_style.css' %}">
 </head>
 <body>
-    {% for verdict in subs%}
-    <div>{{verdict.user}} {{verdict.problem}} {{verdict.verdict}} {{verdict.time_of_submission}}</div>
-    {% endfor %}
+    <div id="box">
+        Submission Status <img src="{% static 'rectangle-list-regular.svg' %}" alt="" id="listlogo">
+    </div>
+    <div id="data">
+        <table id="verdict">
+            <tr>
+                <th>When</th>
+                <th>Who</th>
+                <th>Language</th>
+                <th>Verdict</th>
+            </tr>
+            {% for verdict in subs%}
+            <tr>
+                <td>{{verdict.date_of_submission}} {{verdict.time_of_submission}}</td>
+                <td>{{verdict.user}}</td>
+                <td>{{verdict.language}}</td>
+                <td>{{verdict.verdict}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>
