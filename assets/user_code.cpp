@@ -1,12 +1,15 @@
-import java.util.Scanner;
+def product_of_array_elements(n, arr):
+    product = 1
+    for num in arr:
+        product *= num
+    return product
 
-public class AddTwoNumbers {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num1 = scanner.nextInt();;
-        int num2 = scanner.nextInt();
-        int sum = num1 + num2;
-        System.out.println(sum);
-        scanner.close();
-    }
-}
+if __name__ == "__main__":
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    if len(arr) != n:
+        raise ValueError("Number of elements provided doesn't match the array size!")
+
+    result = product_of_array_elements(n, arr)
+    print(result)
