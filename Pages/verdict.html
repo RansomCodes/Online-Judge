@@ -19,7 +19,7 @@
                 <th>Language</th>
                 <th>Verdict</th>
             </tr>
-            {% for verdict in subs%}
+            {% for verdict in subs reversed %}
             <tr>
                 <td>{{verdict.date_of_submission}} {{verdict.time_of_submission}}</td>
                 <td>{{verdict.user}}</td>
