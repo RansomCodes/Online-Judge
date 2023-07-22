@@ -11,6 +11,7 @@ def home(request):
 def question_detail(request,question_id):
     try:
         ques=questions.objects.get(id=question_id)
+        ques.statement.lstrip()
         return render(request,'submission.html',{'ques':ques})
     except questions.DoesNotExist:
         return render(request,'verdict.html')

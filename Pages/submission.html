@@ -1,28 +1,136 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    {% if user.is_authenticated %}
-    <h1>{{ques.name}}</h1>
-    {{ques.statement}} <br />
-    <form action="{% url 'submit' %}" method="post">
-      {% csrf_token %}
-      <textarea name="code" cols="80" rows="30"></textarea> <br />
-      <select name="language">
-        <option value="option1">C++ 17</option>
-        <option value="option2">Java</option>
-        <option value="option3">Python 3.2.2</option>
-      </select>
-      <input type="hidden" name="ques_id" value="{{ques.id}}" />
-      <button type="submit">Submit</button>
-    </form>
-    {% else %}
-    <div>Please <a href="{% url 'login' %}">Sign In</a> to view the code</div>
-    {% endif %}
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script> <!-- Load the C++ mode script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/anyword-hint.min.js"></script>
+    <title>Submit</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          display: flex; /* Use flexbox for the two-column layout */
+          min-height: 100vh; /* Ensure the page height is at least the viewport height */
+        }
+
+        /* Half-width container for question name, description, and select tag */
+        .question-container {
+          flex: 1;
+          padding: 20px;
+          background-color: #f1f1f1;
+          font-family: 'Manrope', sans-serif;
+        }
+
+        .question-description
+        {
+          font-family: 'Manrope', sans-serif;
+          white-space: pre-wrap; /* Preserve white spaces and wrap text */
+          word-break: break-all;
+        }
+        /* Customize the select and submit buttons */
+        select, input[type="submit"] {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        select:hover, input[type="submit"]:hover {
+          background-color: #45a049;
+        }
+
+        .CodeMirror {
+          height: 700px;
+          width: 1000px;
+          margin-bottom: 1%;
+        }
+
+        #language
+        {
+          margin-top: 1%;
+          display: flex;
+          margin-right: auto;
+        }
+
+      </style>
+    </head>
+    <body>
+      <div class="question-container">
+        <h1 class="selected-question">{{ ques.name }}</h1>
+        {% if user.is_authenticated %}
+        <pre class="question-description">{{ques.statement}}</pre>
+        {% else %}
+        <p>Please login to submit</p>
+        {% endif %}
+      </div>
+      <div class="editor-container"></div>
+        <form action="{% url 'submit' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="ques_id" value="{{ques.id}}" />
+            <select name="language" id="language">
+              <option value="option1">C++ 17</option>
+              <option value="option2">Java</option>
+              <option value="option3">Python 3.2.2</option>
+            </select>
+            <textarea name="code" id="code" rows="10" cols="50"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+      </div>
+
+      <script>
+        var codeTextArea = document.getElementById("code");
+        var editor = CodeMirror.fromTextArea(codeTextArea, {
+          lineNumbers: true,
+          mode: "text/x-c++src", // Set the initial mode to C++
+          autoCloseBrackets: true, // Enable automatic braces (and other characters) closing
+          matchBrackets: true, // Enable matching bracket highlighting
+          extraKeys: { "Ctrl-Space": "autocomplete" }, // Enable autocomplete on Ctrl+Space
+          hintOptions: { hint: CodeMirror.hint.anyword }, // Set the default suggestion provider
+          theme: "dracula",
+        });
+
+        // Define a hinting function for C++ mode that provides autocomplete suggestions
+        CodeMirror.registerHelper("hint", "cpp", function(editor, options) {
+          var keywords = ["auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "int", "long", "register", "return", "short", "signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"];
+          
+          var cur = editor.getCursor();
+          var token = editor.getTokenAt(cur);
+          var start = token.start;
+          var end = cur.ch;
+          var line = cur.line;
+          var currentWord = token.string;
+          
+          var list = [];
+          for (var i = 0; i < keywords.length; i++) {
+            if (keywords[i].indexOf(currentWord) === 0) {
+              list.push(keywords[i]);
+            }
+          }
+          
+          return {
+            list: list,
+            from: CodeMirror.Pos(line, start),
+            to: CodeMirror.Pos(line, end)
+          };
+        });
+      </script>
+       
+    </body>
 </html>
