@@ -14,8 +14,8 @@ header
     height: 5rem;
     justify-content: flex-end;
     align-items: center;
-    background-color: rgb(22, 241, 231);
-    padding: 10px 9%;
+    background-color: #75C2F6;
+    padding: 10px 4%;
     color: white;
 }
 
@@ -43,7 +43,6 @@ header
     display: inline-block;
     padding: 0px 20px;
     font-size: 1.2rem;
-    
 }
 
 .head_li a
@@ -61,4 +60,10 @@ header
 #head_l1
 {
     border-right: 1px solid black;
+}
+
+.logo-img
+{
+    height: 50px;
+    margin-left: 0rem;
 }
