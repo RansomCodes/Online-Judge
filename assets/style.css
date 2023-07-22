@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap');
 
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -8,8 +8,7 @@
     text-decoration: none;
 }
 
-header
-{
+header {
     display: flex;
     height: 5rem;
     justify-content: flex-end;
@@ -19,8 +18,7 @@ header
     color: white;
 }
 
-.logoname
-{
+.logoname {
     margin-right: auto;
     cursor: pointer;
     font-size: 3rem;
@@ -28,42 +26,63 @@ header
     transition: all 0.3 ease;
 }
 
-.logoname:hover
-{
+.logoname:hover {
     color: rgb(212, 230, 235);
 }
 
-#head_ul
-{
+#head_ul {
     list-style: none;
 }
 
-.head_li
-{
+.head_li {
     display: inline-block;
     padding: 0px 20px;
     font-size: 1.2rem;
 }
 
-.head_li a
-{
+.head_li a {
     color: white;
     transition: all 0.3 ease 0s;
 }
 
-.head_li a:hover
-{
+.head_li a:hover {
     color: rgb(137, 125, 218);
 }
 
-
-#head_l1
-{
+#head_l1 {
     border-right: 1px solid black;
 }
 
-.logo-img
-{
+.logo-img {
     height: 50px;
     margin-left: 0rem;
+}
+
+#questions {
+    margin-top: 2%;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#questions a {
+    margin-top: 0.25%;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+#questions a:hover {
+    background-color: #f3f3f3;
+}
+
+body
+{
+    background-color: #FAF3F0;
 }
