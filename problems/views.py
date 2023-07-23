@@ -100,7 +100,7 @@ def submit(request):
     
     currsubmission=totsubmission(user=request.user.first_name,verdict=verdict,time_of_submission=curr_time,problem=ques_name,language=curr_lang,date_of_submission=curr_time)
     currsubmission.save()
-    sub=totsubmission.objects.all()
+    sub=totsubmission.objects.all().order_by('-id')
     return render(request,'verdict.html',{'subs':sub})
 
 def run_cpp_file(file_name, input_data, time_limit=5):

@@ -19,12 +19,14 @@
                 <th>Language</th>
                 <th>Verdict</th>
             </tr>
-            {% for verdict in subs reversed %}
+            {% for verdict in subs %}
             <tr>
                 <td>{{verdict.date_of_submission}} {{verdict.time_of_submission}}</td>
                 <td>{{verdict.user}}</td>
                 <td>{{verdict.language}}</td>
-                <td>{{verdict.verdict}}</td>
+                <td {% if verdict.verdict == 'Accepted' %}style="color: green;"{% else %}style="color: red;"{% endif %}>
+                    {{verdict.verdict}}
+                </td>
             </tr>
             {% endfor %}
         </table>
