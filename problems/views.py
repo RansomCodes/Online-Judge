@@ -45,12 +45,15 @@ def submit(request):
         # Getting hold of every testcase
         for test in tc:
             input_data=test.input
-            print(input_data)
             output=run_cpp_file("user_code.cpp",input_data)
-            print(output)
             # Comparing if the output of the user input function matched with current input
             if output.strip()!=test.expected_output.strip():
-                verdict="Wrong answer"
+                if output.strip()=="Compilation Error":
+                    verdict=output.strip()
+                elif output.strip()=="Time Limit Exceeded":
+                    verdict=output.strip()
+                else:
+                    verdict="Wrong Answer"
                 break
             
     elif language=="option2":
@@ -67,7 +70,10 @@ def submit(request):
             output=run_java_file("AddTwoNumbers.java",input_data)
             
             if output.strip()!=test.expected_output.strip():
-                verdict="Wrong Answer"
+                if output.strip()=="Compilation Error":
+                    verdict=output.strip()
+                else:
+                    verdict="Wrong Answer"
                 break
     
     elif language=="option3":
@@ -82,8 +88,14 @@ def submit(request):
         for test in tc:
             input_data=test.input
             output=run_python_file("python_code.py",input_data)
+            print(output)
             if output.strip()!=test.expected_output.strip():
-                verdict="Wrong Answer"
+                if output.strip()=="Compilation Error":
+                    verdict=output.strip()
+                elif output.strip()=="Time Limit Exceeded":
+                    verdict=output.strip()
+                else:
+                    verdict="Wrong Answer"
                 break
     
     currsubmission=totsubmission(user=request.user.first_name,verdict=verdict,time_of_submission=curr_time,problem=ques_name,language=curr_lang,date_of_submission=curr_time)
@@ -91,22 +103,27 @@ def submit(request):
     sub=totsubmission.objects.all()
     return render(request,'verdict.html',{'subs':sub})
 
+def run_cpp_file(file_name, input_data, time_limit=5):
+    # Connect the file name to its correct path
+    file_path = os.path.join("assets", file_name)
 
-def run_cpp_file(file_name,input_data):
-    # connect the file name to its correct path
-    file_path=os.path.join("assets",file_name)
-        
     # Compiling the file with user input
-    output_file_name="compiled_output"
-    compile_result=subprocess.run(["g++",file_path,"-o",output_file_name],capture_output=True,text=True)
-    if compile_result.returncode == 0:
-        run_result=subprocess.run(["./"+output_file_name],input=input_data,capture_output=True,text=True)
-        if run_result.returncode==0:
+    output_file_name = "compiled_output"
+    compile_result = subprocess.run(["g++", file_path, "-o", output_file_name], capture_output=True, text=True)
+    if compile_result.returncode != 0:
+        return "Compilation Error"
+
+    # Run the compiled C++ program with a time limit
+    try:
+        run_result = subprocess.run(["timeout", str(time_limit), "./"+output_file_name], input=input_data,
+                                    capture_output=True, text=True, timeout=time_limit)
+        if run_result.returncode == 0:
             return run_result.stdout
         else:
             return run_result.stderr
-    else:
-        return compile_result.stderr
+    except subprocess.TimeoutExpired:
+        return "Time Limit Exceeded"
+
 
 
 def run_java_file(file_name,input_data):
@@ -121,15 +138,19 @@ def run_java_file(file_name,input_data):
         else:
             return run_result.stderr
     else:
-        return compile_result.stderr
+        return "Compilation Error"
 
 
-def run_python_file(file_name,input_data):
-    file_path=os.path.join("assets",file_name)
+def run_python_file(file_name, input_data, timeout=5):
+    file_path = os.path.join("assets", file_name)
     
-    run_result= subprocess.run(["python",file_path],input=input_data,capture_output=True,text=True)
-    
-    if run_result.returncode==0:
-        return run_result.stdout
-    else: 
-        return run_result.stderr
+    try:
+        run_result = subprocess.run(["python", file_path], input=input_data, capture_output=True, text=True, timeout=timeout)
+        if run_result.returncode == 0:
+            return run_result.stdout
+        else:
+            print(run_result.stderr)    
+            return "Compilation Error"
+    except subprocess.TimeoutExpired:
+        return "Time Limit Exceeded"
+
