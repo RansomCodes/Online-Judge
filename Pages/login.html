@@ -1,16 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="{% static 'login_style.css' %}">
 </head>
 <body>
-    <form action="{% url 'login'%}" method="post">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="username"> <br>
-        <input type="password" name="pass" placeholder="password"> <br>
-        <button type="submit">Submit</button>
-    </form>
+    <img src="{% static 'logo-color.png' %}" alt="" id="logo">
+    <div id="login-container">
+        <form action="{% url 'login'%}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="pass" placeholder="Password">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
+
