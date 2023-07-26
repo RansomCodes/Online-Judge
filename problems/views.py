@@ -29,7 +29,6 @@ def submit(request):
     # Extracting testcases from the data which has the question id sam as the problem id
     tc=testcases.objects.filter(question_id=ques_id)
     verdict="Wrong Answer"
-    
     # option1 --> C++
     # option2 --> Java
     # option3 --> Python
@@ -43,7 +42,9 @@ def submit(request):
         verdict="Accepted"
         
         # Getting hold of every testcase
+
         for test in tc:
+            print(test)
             input_data=test.input
             output=run_cpp_file("user_code.cpp",input_data)
             # Comparing if the output of the user input function matched with current input

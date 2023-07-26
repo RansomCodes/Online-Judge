@@ -8,9 +8,19 @@
     <link rel="stylesheet" href="{% static 'verdict_style.css' %}">
 </head>
 <body>
-    <div id="box">
-        Submission Status <img src="{% static 'rectangle-list-regular.svg' %}" alt="" id="listlogo">
-    </div>
+    <header>
+        <div class="logoname">
+            <img src="{% static 'logo-white.png' %}" alt="" class="logo-img">
+        </div>
+        <div class="navbar"><img src="{% static 'rectangle-list-regular.svg' %}" alt="" class="listlogo">Submission Status</div>
+        <div>
+            <ul  id="head_ul">
+                <li class="head_li">Login</li>
+                <li class="head_li">SignUp</li>
+            </ul>
+            
+        </div>
+    </header>
     <div id="data">
         <table id="verdict">
             <tr>
