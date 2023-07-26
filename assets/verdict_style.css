@@ -1,7 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap');
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    height: 5rem;
+    align-items: center;
+    background-color: #75C2F6;
+    padding: 10px 4%;
+    color: white;
+    justify-content: space-between;
+}
+
+.logoname {
+    /* margin-right: auto; */
+    cursor: pointer;
+    font-size: 3rem;
+    font-weight: 800;
+    transition: all 0.3s ease;
+}
+
+.navbar
+{
+    font-size: 2.3rem;
+    font-weight: 800;
+}
+
+.logoname:hover {
+    color: rgb(212, 230, 235);
+}
+
+#head_ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.head_li {
+    padding: 0px 20px;
+    font-size: 1.2rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.head_li:hover {
+    color: rgb(137, 125, 218);
+    cursor: pointer;
+}
+
+.logo-img {
+    height: 50px;
+    margin-right: 20px;
+}
+
+.listlogo {
+    margin-right: 5px;
+    height: 30px;
 }
 
 body {
@@ -56,6 +116,45 @@ body {
     }
 }
 
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logoname {
+        margin-right: 0;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    #head_ul {
+        margin-top: 10px;
+    }
+
+    #submission {
+        margin-left: 0;
+    }
+
+    .head_li {
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+}
+
+/* Adjust layout for even smaller screens */
+@media screen and (max-width: 480px) {
+    .logoname {
+        font-size: 2rem;
+    }
+
+    .head_li {
+        padding: 5px;
+        font-size: 0.9rem;
+    }
+} 
+
 #verdict tr:nth-child(even)
 {
     background-color:#f8f8f8;
@@ -65,3 +164,4 @@ body {
 {
     background-color:#ffffff;
 }
+/*changed*/
