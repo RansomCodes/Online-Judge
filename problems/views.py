@@ -44,10 +44,11 @@ def submit(request):
         # Getting hold of every testcase
 
         for test in tc:
-            print(test)
             input_data=test.input
             output=run_cpp_file("user_code.cpp",input_data)
             # Comparing if the output of the user input function matched with current input
+            # print(input_data)
+            # print(output)
             if output.strip()!=test.expected_output.strip():
                 if output.strip()=="Compilation Error":
                     verdict=output.strip()
