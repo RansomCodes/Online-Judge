@@ -18,6 +18,19 @@ header {
     justify-content: space-between;
 }
 
+.head_li a
+{
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.head_li a:hover {
+    color: rgb(137, 125, 218);
+    cursor: pointer;
+}
+
+
 .logoname {
     /* margin-right: auto; */
     cursor: pointer;

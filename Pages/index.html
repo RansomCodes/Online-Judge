@@ -15,10 +15,10 @@
       <nav>
         <ul id="head_ul">
           <li class="head_li" id="head_l1">
-            {% if user.is_authenticated %} {{ user.first_name|capfirst }} {% else %} <a href="Users/login">Sign In</a>{% endif %}
+            {% if user.is_authenticated %} {{ user.first_name|capfirst }} {% else %} <a href="{% url 'login' %}">Sign In</a>{% endif %}
           </li>
           <li class="head_li">
-            {% if user.is_authenticated %}<a href="Users/logout">Logout</a> {% else %}<a href="Users/register">Register</a>{% endif %}
+            {% if user.is_authenticated %}<a href="{% url 'logout' %}">Logout</a> {% else %}<a href="{% url 'register' %}">Register</a>{% endif %}
           </li>
         </ul>
       </nav>

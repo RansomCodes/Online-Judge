@@ -15,10 +15,9 @@
         <div class="navbar"><img src="{% static 'rectangle-list-regular.svg' %}" alt="" class="listlogo">Submission Status</div>
         <div>
             <ul  id="head_ul">
-                <li class="head_li">Login</li>
-                <li class="head_li">SignUp</li>
+                <li class="head_li">{{ user.first_name|capfirst }}</li>
+                <li class="head_li"><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
-            
         </div>
     </header>
     <div id="data">
