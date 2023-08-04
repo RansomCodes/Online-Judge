@@ -1,6 +1,13 @@
 # Online Judge Project
 
-This is an Online Judge web application built using Django, HTML, CSS, and a bit of JavaScript. The project allows users to register and login to the website, view a list of programming problems, submit their code to check its correctness, and view the verdict for each submission. The application supports two programming languages: Python and C++.
+Codemasters is a cutting-edge platform where programmers can put their problem-solving skills to the test by solving a variety of programming challenges listed on the page. Upon submitting their code, the system rigorously examines it against a specific set of test cases to determine if the user's logic is accurate. The platform utilizes a robust tech stack, combining the power of Django and PostgreSQL. The choice of PostgreSQL was deliberate, as it efficiently handles the structured format of data received from users.
+
+The website boasts robust login authentication and authorization mechanisms, ensuring a secure and personalized user experience. To enhance the coding experience, we've integrated the CodeMirror text area, offering users a smooth and efficient code-writing environment.
+
+Codemasters currently supports two different types of programming languages - C++ and Python, giving users the flexibility to code in their preferred language. The code is executed using Python's subprocess module, which compiles the code within a predefined time limit. This approach helps us avoid any timeout errors where the code keeps executing infinitely.
+
+The verdict page showcases essential details, such as the submission's date, time, username, problem ID, and the outcome of the submission's evaluation. Additionally, users can review previous submissions made by all participants, fostering a sense of healthy competition and continuous improvement.
+
 
 ## Table of Contents
 
